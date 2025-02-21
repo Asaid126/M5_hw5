@@ -44,9 +44,11 @@ class CharacterAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val character = getItem(position)
-        Log.d("BIND", "onBindViewHolder: ${character.name}")
-        holder.onBind(character)
+//        val character = getItem(position)
+//        Log.d("BIND", "onBindViewHolder: ${character.name}")
+//        holder.onBind(character)
+        holder.onBind(getItem(position))
+
     }
 
     companion object {

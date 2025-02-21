@@ -4,14 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.m5_hw4.data.model.characters.Character
-import com.example.m5_hw4.data.retrofit.RetrofitInstance
+import com.example.m5_hw4.data.retrofit.ApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class DatailViewModel: ViewModel() {
-
-    private val api = RetrofitInstance.api
+@HiltViewModel
+class DatailViewModel @Inject constructor(private val api: ApiService) : ViewModel() {
 
     private val _character = MutableLiveData<Character>()
     val character: LiveData<Character> get() = _character
