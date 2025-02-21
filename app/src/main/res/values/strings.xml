@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">M5_hw4</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="color_indicator_all">color_indicator_all\n</string>
+    <string name="rick">Rick</string>
+    <string name="alive_human">Alive - Human</string>
+    <string name="last_known_location">Last known location:</string>
+    <string name="citadel_of_ricks">Citadel of Ricks</string>
+    <string name="first_seen_in">First seen in:</string>
+    <string name="pilot">Pilot</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="name">Name:</string>
+    <string name="air_date">Air date:</string>
+    <string name="december_13_2013">December 13, 2013</string>
+    <string name="season_1">Season 1</string>
+    <string name="episode_1">Episode 1</string>
+    <string name="rick_sanchez">Rick Sanchez</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="first_known_location">First known location</string>
+</resources>
