@@ -1,6 +1,5 @@
 package com.example.m5_hw4.ui.fragments.fragment1
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +12,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterViewModel @Inject constructor(private val api: ApiService) : ViewModel() {
+class CharacterViewModel @Inject constructor
+    (private val api: ApiService) : ViewModel() {
 
     private val _characters = MutableLiveData<BaseResponse>()
     val characters: LiveData<BaseResponse> get() = _characters

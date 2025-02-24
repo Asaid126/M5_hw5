@@ -77,9 +77,10 @@ dependencies {
 
     //Glide
     implementation (libs.glide)
-    // Hilt
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.compiler)
+    //Dagger-Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
 
 
 }

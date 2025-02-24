@@ -85,3 +85,6 @@ class DatailFragment : Fragment(R.layout.fragment_datail) {
         }
     }
 }
+
+
+

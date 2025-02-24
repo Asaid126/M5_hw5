@@ -44,9 +44,6 @@ class CharacterAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val character = getItem(position)
-//        Log.d("BIND", "onBindViewHolder: ${character.name}")
-//        holder.onBind(character)
         holder.onBind(getItem(position))
 
     }
@@ -54,10 +51,8 @@ class CharacterAdapter(
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Character>() {
             override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
-
-               return oldItem.id == newItem.id
+                return oldItem.id == newItem.id
             }
-
             override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
                 return oldItem == newItem
             }

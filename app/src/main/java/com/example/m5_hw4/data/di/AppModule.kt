@@ -1,4 +1,4 @@
-package com.example.m5_hw4.di
+package com.example.m5_hw4.data.di
 
 import com.example.m5_hw4.BuildConfig
 import com.example.m5_hw4.data.retrofit.ApiService
