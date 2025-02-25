@@ -77,9 +77,12 @@ dependencies {
 
     //Glide
     implementation (libs.glide)
-    //Dagger-Hilt
+    //D-Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    //room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
 
 
 
@@ -95,4 +98,8 @@ dependencies {
 //// navigation
 //implementation "androidx.navigation:navigation-fragment:$nav_version"
 //implementation "androidx.navigation:navigation-ui:$nav_version"
+
+////room
+//implementation("androidx.room:room-runtime:2.6.1")
+//kapt("androidx.room:room-compiler:2.6.1")
 

@@ -1,9 +1,9 @@
 package com.example.m5_hw4.ui.fragments.fragment1
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +22,7 @@ class CharacterFragment : Fragment(R.layout.fragment_character) {
         super.onViewCreated(view, savedInstanceState)
         initialize()
         setupObserve()
+        setupSearch()
 
         binding.pgCharacter.visibility = View.VISIBLE
         viewModel.getAllCharacters()
@@ -41,6 +42,19 @@ class CharacterFragment : Fragment(R.layout.fragment_character) {
         }
     }
 
+    // 1
+    private fun setupSearch() {
+        // Кнопка поиска
+        binding.searchButton.setOnClickListener {
+            val searchText = binding.searchEditText.text.toString()
+            if (searchText.isNotEmpty()) {
+                viewModel.getCharactersByStatus(searchText)
+            } else {
+                Toast.makeText(requireContext(), "Enter a name to search", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }//1
+
     private fun setupObserve() {
         viewModel.characters.observe(viewLifecycleOwner) { response ->
             response.results?.let { results ->
@@ -52,9 +66,11 @@ class CharacterFragment : Fragment(R.layout.fragment_character) {
                 }
             }
         }
+
         viewModel.error.observe(viewLifecycleOwner) { message ->
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             binding.pgCharacter.visibility = View.GONE
-
         }
-    }}
+    }
+}
+
