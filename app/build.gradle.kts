@@ -80,9 +80,9 @@ dependencies {
     //D-Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-    //room
-    implementation(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
+
+//
+    implementation(libs.androidx.paging.runtime.ktx)
 
 
 

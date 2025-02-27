@@ -1,76 +1,64 @@
 package com.example.m5_hw4.ui.fragments.fragment1
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.m5_hw4.R
+import com.example.m5_hw4.data.model.characters.Character
 import com.example.m5_hw4.databinding.FragmentCharacterBinding
+import com.example.m5_hw4.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterFragment : Fragment(R.layout.fragment_character) {
 
     private val binding by viewBinding(FragmentCharacterBinding::bind)
     private val viewModel: CharacterViewModel by viewModels()
+    private lateinit var charactersAdapter: CharacterAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initialize()
         setupObserve()
-        setupSearch()
-
-        binding.pgCharacter.visibility = View.VISIBLE
-        viewModel.getAllCharacters()
     }
 
     private fun initialize() {
-        val characterAdapter = CharacterAdapter { characterId ->
-            val bundle = Bundle().apply {
-                putInt("character_id", characterId)
-            }
-            findNavController().navigate(R.id.action_characterFragment_to_datailFragment, bundle)
-        }
-
+        charactersAdapter = CharacterAdapter { model -> onCharacterClick(model) }
         binding.rvCharacter.apply {
-            adapter = characterAdapter
+            adapter = charactersAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
-    // 1
-    private fun setupSearch() {
-        // Кнопка поиска
-        binding.searchButton.setOnClickListener {
-            val searchText = binding.searchEditText.text.toString()
-            if (searchText.isNotEmpty()) {
-                viewModel.getCharactersByStatus(searchText)
-            } else {
-                Toast.makeText(requireContext(), "Enter a name to search", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }//1
+    private fun onCharacterClick(model: Character) {
+        val action =
+            CharacterFragmentDirections.actionCharacterFragmentToDatailFragment(model.id)
+        findNavController().navigate(action)
+    }
 
     private fun setupObserve() {
-        viewModel.characters.observe(viewLifecycleOwner) { response ->
-            response.results?.let { results ->
-                (binding.rvCharacter.adapter as CharacterAdapter).submitList(results)
-
-                with(binding) {
-                    rvCharacter.visibility = View.VISIBLE
-                    pgCharacter.visibility = View.GONE
+        viewModel.getAllCharacters().observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success -> viewLifecycleOwner.lifecycleScope.launch {
+                    binding.pgCharacter.visibility = View.GONE
+                    charactersAdapter.submitData(resource.data)
+                }
+                is Resource.Error -> {
+                    binding.pgCharacter.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {
+                    binding.pgCharacter.visibility = View.VISIBLE
                 }
             }
         }
-
-        viewModel.error.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            binding.pgCharacter.visibility = View.GONE
-        }
     }
 }
-

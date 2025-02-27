@@ -1,41 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".ui.fragments.fragment1.CharacterFragment"
-android:background="@color/dark_gray">
-
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv_character"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/item" />
+    tools:context=".ui.fragments.fragment1.CharacterFragment"
+    android:background="@color/dark_gray">
 
-<ProgressBar
-    android:id="@+id/pg_character"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:visibility="gone"
-    tools:visibility="visible" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_character"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item" />
 
-<Button
-    android:id="@+id/searchButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top|center_horizontal"
-    android:layout_marginTop="16dp"
-    android:text="Search" />
+    <ProgressBar
+        android:id="@+id/pg_character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-<EditText
-    android:id="@+id/searchEditText"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top|center_horizontal"
-    android:layout_marginTop="64dp"
-    android:textSize="54sp"
-    android:hint="Enter character name"
-    android:inputType="text" />
 
 </FrameLayout>
+

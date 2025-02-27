@@ -1,14 +1,17 @@
 package com.example.m5_hw4.ui.fragments.fragment2
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.m5_hw4.R
 import com.example.m5_hw4.databinding.FragmentDatailBinding
+import com.example.m5_hw4.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import dev.androidbroadcast.vbpd.viewBinding
 
@@ -17,52 +20,44 @@ class DatailFragment : Fragment(R.layout.fragment_datail) {
 
     private val binding by viewBinding(FragmentDatailBinding::bind)
     private val viewModel: DatailViewModel by viewModels()
+    private val args: DatailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val characterId = arguments?.getInt("character_id") ?: return
-        viewModel.getCharacterById(characterId)
-
         observeViewModel()
-
         setupExpandableLayouts()
-
     }
 
-    private fun observeViewModel() {
-        viewModel.character.observe(viewLifecycleOwner) { character ->
-            with(binding) {
-                characterName.text = character.name
-                characterStatus.text = character.status
-                characterLocation.text = character.location.name
-                characterGender.text = character.gender
+    @SuppressLint("SetTextI18n")
+    private fun observeViewModel() = with(binding) {
+        viewModel.getCharacterById(args.id).observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success-> {
+                    characterName.text = resource.data.name
+                    characterStatus.text = resource.data.status
+                    characterLocation.text = resource.data.location.name
+                    characterGender.text = resource.data.gender
 
-//            Glide.with(this)
-//                .load(character.image)
-//                .into(binding.characterImage)
-                Glide.with(this@DatailFragment)
-                    .load(character.image)
-                    .into(characterImage)
+                    Glide.with(this@DatailFragment)
+                        .load(resource.data.image)
+                        .into(characterImage)
 
-//            binding.expandable.secondLayout.findViewById<TextView>(R.id.tv_character_info)?.text =
-//                "ID: ${character.id}\nSpecies: ${character.species}\nType: ${character.type}"
-                expandable.secondLayout.findViewById<TextView>(R.id.tv_character_info)?.text =
-                    "ID: ${character.id}\nSpecies: ${character.species}\nType: ${character.type}"
+                    expandable.secondLayout.findViewById<TextView>(R.id.tv_character_info)?.text =
+                        "ID: ${resource.data.id}\nSpecies: ${resource.data.species}\nType: ${resource.data.type}"
 
-//            binding.expandable2.secondLayout.findViewById<TextView>(R.id.tv_origin)?.text =
-//                "Origin: ${character.origin.name}"
-                expandable2.secondLayout.findViewById<TextView>(R.id.tv_origin)?.text =
-                    "Origin: ${character.origin.name}"
+                    expandable2.secondLayout.findViewById<TextView>(R.id.tv_origin)?.text =
+                        "Origin: ${resource.data.origin.name}"
 
-//            binding.expandable3.secondLayout.findViewById<TextView>(R.id.tv_first_seen)?.text =
-//                "First seen in: ${character.episode.firstOrNull() ?: "Unknown"}"
-                expandable3.secondLayout.findViewById<TextView>(R.id.tv_first_seen)?.text =
-                    "First seen in: ${character.episode.firstOrNull() ?: "Unknown"}"
-            }
+                    expandable3.secondLayout.findViewById<TextView>(R.id.tv_first_seen)?.text =
+                        "First seen in: ${resource.data.episode.firstOrNull() ?: "Unknown"}"
 
-            viewModel.error.observe(viewLifecycleOwner) { error ->
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+
+                }
+                is Resource.Loading -> {}
             }
         }
     }
@@ -85,6 +80,3 @@ class DatailFragment : Fragment(R.layout.fragment_datail) {
         }
     }
 }
-
-
-
