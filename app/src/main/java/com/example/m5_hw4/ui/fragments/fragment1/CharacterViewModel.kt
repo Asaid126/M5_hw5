@@ -1,5 +1,4 @@
 package com.example.m5_hw4.ui.fragments.fragment1
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData

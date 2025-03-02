@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.m5_hw4.BaseFragment
 import com.example.m5_hw4.R
 import com.example.m5_hw4.data.model.characters.Character
 import com.example.m5_hw4.databinding.FragmentCharacterBinding
@@ -17,20 +18,14 @@ import dev.androidbroadcast.vbpd.viewBinding
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CharacterFragment : Fragment(R.layout.fragment_character) {
+class CharacterFragment :
+    BaseFragment<FragmentCharacterBinding, CharacterViewModel>(FragmentCharacterBinding::inflate) {
 
-    private val binding by viewBinding(FragmentCharacterBinding::bind)
-    private val viewModel: CharacterViewModel by viewModels()
+    override val viewModel: CharacterViewModel by viewModels()
     private lateinit var charactersAdapter: CharacterAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        initialize()
-        setupObserve()
-    }
-
-    private fun initialize() {
+    override fun setupViews() {
         charactersAdapter = CharacterAdapter { model -> onCharacterClick(model) }
         binding.rvCharacter.apply {
             adapter = charactersAdapter
@@ -44,7 +39,7 @@ class CharacterFragment : Fragment(R.layout.fragment_character) {
         findNavController().navigate(action)
     }
 
-    private fun setupObserve() {
+    override fun setupObservers() {
         viewModel.getAllCharacters().observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> viewLifecycleOwner.lifecycleScope.launch {
